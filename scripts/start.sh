@@ -29,7 +29,6 @@ if [ ! -f /etc/app_configured ]; then
     mkdir -p /torrents/config/log
     mkdir -p /torrents/config/torrents
     mkdir -p /torrents/watch
-    mkdir -p /var/lib/transmission/info
 
     cp /sources/settings.json /torrents/config/transmission/settings.json
     sed -i "s/TR_USER/${USERNAME}/g" /torrents/config/transmission/settings.json
