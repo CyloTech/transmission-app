@@ -34,8 +34,9 @@ if [ ! -f /etc/app_configured ]; then
     sed -i "s/TR_USER/${USERNAME}/g" /torrents/config/transmission/settings.json
     sed -i "s/TR_PASS/${PASSWORD}/g" /torrents/config/transmission/settings.json
     sed -i "s/TR_PORT/${LISTENING_PORT}/g" /torrents/config/transmission/settings.json
-    chown -R transmission:transmission /torrents
 fi
+
+ls -d /torrents/* | grep -v home | xargs -d "\n" chown -R transmission:transmission
 
 ###########################[ MARK INSTALLED ]###############################
 

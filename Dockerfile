@@ -12,6 +12,7 @@ RUN \
     transmission-daemon \
     transmission-doc \
     transmission-lang \
+    findutils \
     libcap
 
 RUN setcap cap_net_bind_service=+ep /usr/bin/transmission-daemon
