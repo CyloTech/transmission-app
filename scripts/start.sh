@@ -22,18 +22,20 @@ fi
 
 ###########################[ TRANSMISSION SETUP ]###############################
 
-if [ ! -f /etc/app_configured ]; then
-    mkdir -p /torrents/downloading
-    mkdir -p /torrents/completed
-    mkdir -p /torrents/config/transmission
-    mkdir -p /torrents/config/log
-    mkdir -p /torrents/config/torrents
-    mkdir -p /torrents/watch
+mkdir -p /torrents/downloading
+mkdir -p /torrents/completed
+mkdir -p /torrents/config/transmission
+mkdir -p /torrents/config/log
+mkdir -p /torrents/config/torrents
+mkdir -p /torrents/watch
 
+if [ ! -f /torrents/config/transmission/settings.json ]; then
     cp /sources/settings.json /torrents/config/transmission/settings.json
     sed -i "s/TR_USER/${USERNAME}/g" /torrents/config/transmission/settings.json
     sed -i "s/TR_PASS/${PASSWORD}/g" /torrents/config/transmission/settings.json
     sed -i "s/TR_PORT/${LISTENING_PORT}/g" /torrents/config/transmission/settings.json
+else
+    sed -i 's#"peer-port": [0-9]*,#"peer-port": '${LISTENING_PORT}',#g' /torrents/config/transmission/settings.json
 fi
 
 ls -d /torrents/* | grep -v home | xargs -d "\n" chown -R transmission:transmission
