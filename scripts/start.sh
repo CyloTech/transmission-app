@@ -1,25 +1,6 @@
 #!/usr/bin/env bash
 set -x
 
-###########################[ SUPERVISOR SCRIPTS ]###############################
-
-if [ ! -f /etc/app_configured ]; then
-    mkdir -p /etc/supervisor/conf.d
-cat << EOF >> /etc/supervisor/conf.d/transmission.conf
-[program:transmission]
-command=/bin/su -s /bin/bash -c "TERM=xterm /usr/bin/transmission-daemon --foreground --config-dir /torrents/config/transmission/" transmission
-autostart=true
-autorestart=true
-priority=1
-stdout_events_enabled=true
-stderr_events_enabled=true
-stdout_logfile=/dev/stdout
-stdout_logfile_maxbytes=0
-stderr_logfile=/dev/stderr
-stderr_logfile_maxbytes=0
-EOF
-fi
-
 ###########################[ TRANSMISSION SETUP ]###############################
 
 mkdir -p /torrents/downloading
@@ -38,6 +19,14 @@ else
     sed -i 's#"peer-port": [0-9]*,#"peer-port": '${LISTENING_PORT}',#g' /torrents/config/transmission/settings.json
 fi
 
+if [[ ${WEB_UI} == "combustion" ]]; then
+    export TRANSMISSION_WEB_HOME=/opt/transmission-ui/combustion-release
+elif [[ ${WEB_UI} == "transmission-web-control" ]]; then
+    export TRANSMISSION_WEB_HOME=/opt/transmission-ui/transmission-web-control
+elif [[ ${WEB_UI} == "kettu" ]]; then
+    export TRANSMISSION_WEB_HOME=/opt/transmission-ui/kettu
+fi
+
 ls -d /torrents/* | grep -v home | xargs -d "\n" chown -R transmission:transmission
 
 ###########################[ MARK INSTALLED ]###############################
@@ -47,4 +36,4 @@ if [ ! -f /etc/app_configured ]; then
     curl -i -H "Accept: application/json" -H "Content-Type:application/json" -X POST "https://api.cylo.io/v1/apps/installed/$INSTANCE_ID"
 fi
 
-exec /usr/bin/supervisord -n -c /etc/supervisord.conf
+exec /bin/su --preserve-environment -s /bin/bash -c "TERM=xterm /usr/bin/transmission-daemon --foreground --config-dir /torrents/config/transmission/" transmission
