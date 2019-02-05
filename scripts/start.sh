@@ -33,7 +33,10 @@ ls -d /torrents/* | grep -v home | xargs -d "\n" chown -R transmission:transmiss
 
 if [ ! -f /etc/app_configured ]; then
     touch /etc/app_configured
-    curl -i -H "Accept: application/json" -H "Content-Type:application/json" -X POST "https://api.cylo.io/v1/apps/installed/$INSTANCE_ID"
+    until [[ $(curl -i -H "Accept: application/json" -H "Content-Type:application/json" -X POST "https://api.cylo.io/v1/apps/installed/${INSTANCE_ID}" | grep '200') ]]
+        do
+        sleep 5
+    done
 fi
 
 exec /bin/su --preserve-environment -s /bin/bash -c "TERM=xterm /usr/bin/transmission-daemon --foreground --config-dir /torrents/config/transmission/" transmission

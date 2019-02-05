@@ -32,7 +32,7 @@
   "peer-socket-tos": 0,
   "pex-enabled": true,
   "port-forwarding-enabled": false,
-  "preallocation": 1,
+  "preallocation": 0,
   "proxy": "",
   "proxy-auth-enabled": false,
   "proxy-auth-password": "",
