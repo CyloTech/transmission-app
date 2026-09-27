@@ -33,6 +33,16 @@ without `--set-default`. Review its dry run, then run the Git-delivered
 APPBOX_PORTS template and customer release notes before making it public/default.
 The global LISTENING_PORT template remains available to older versions.
 
+Publication completed: version ID `1337` is enabled, public and the sole default.
+The migration ran from Git commit `7d1f0652d675e0c79fc68f96142f0f52ba98ceaa`.
+Independent PostgreSQL readback confirmed the image digest, release notes, both
+app and version port counts, and version-specific environment row `808`.
+Resource comparison against version `1242` returned true. Hashes of all older
+version rows (excluding default/update timestamp) and other app-level fields
+matched their pre-import snapshots. Existing global environment row `75` was
+unchanged. The original developer checkout's dirty and untracked work was
+preserved.
+
 These tests use disposable builder instances. Publication does not update an
 existing customer installation or prove that the reported torrent speeds will
 change; that also depends on the swarm and network path.
