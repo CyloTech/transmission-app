@@ -1,0 +1,27 @@
+app:
+  display_name: Transmission
+  publisher: Transmission Project
+  description: Transmission BitTorrent client.
+image:
+  name: repo.cylo.net/transmission
+  version: 4.1.2-1
+  tag: 4.1.2-1
+container:
+  memory: 0
+  memory_swap: 0
+  memory_reservation: 0
+  cpus: 0
+  pids_limit: 0
+  init: true
+behavior:
+  app_slots: 1
+  expect_callback: false
+  callback_requires_auth: false
+  can_update: true
+  allow_downgrade: true
+ports:
+  tcp:
+    range: "80"
+    dynamic: 0
+  combined:
+    dynamic: 1
