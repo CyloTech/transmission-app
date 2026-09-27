@@ -6,6 +6,7 @@ image:
   name: repo.cylo.net/transmission
   version: 4.1.2-1
   tag: 4.1.2-1
+  digest: repo.cylo.net/transmission@sha256:6f366e613e04b2999cb1ecb0ad41838dc625743e8b0f3cb998fa75f429476644
 container:
   memory: 0
   memory_swap: 0
